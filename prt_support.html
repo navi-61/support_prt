@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>🖨️ Procedura Tecnica: Supporto Remoto per Problemi di Stampa</title>
+  <style>
+    html {
+  font-size: 14px; /* base ridotta rispetto al default 16px */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  max-width: 900px;
+  margin: 2em auto;
+  padding: 1em 2em;
+  line-height: 1.5;
+  font-size: 1rem; /* 14px */
+}
+
+h1, h2 {
+  color: #004080;
+  margin-bottom: 0.3em;
+}
+
+h1 {
+  border-bottom: 3px solid #004080;
+  padding-bottom: 0.3em;
+  font-size: 1.6rem; /* circa 22.4px */
+}
+
+h2 {
+  margin-top: 2em;
+  border-bottom: 2px solid #006699;
+  padding-bottom: 0.2em;
+  font-size: 1.2rem; /* circa 16.8px */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.5em 0.8em;
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.9rem; /* leggermente più piccolo, ~12.6px */
+}
+
+th {
+  background: #dbe9f9;
+  color: #004080;
+}
+
+code {
+  background: #eee;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: Consolas, monospace;
+  font-size: 0.85rem; /* ~12px */
+}
+
+ul, ol {
+  margin-top: 0.3em;
+  margin-bottom: 1em;
+  padding-left: 1.2em;
+  font-size: 0.95rem; /* ~13.3px */
+}
+
+li {
+  margin-bottom: 0.3em;
+}
+
+details {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1em 1.5em;
+  margin-bottom: 1em;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+#details-flowchart pre {
+  width: 600px;
+  height: 300px;
+  overflow: auto;
+  white-space: pre;
+  background: #f0f8ff;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 6px;
+  font-size: 0.85rem; /* ~12px */
+}
+
+summary {
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.05rem; /* ~14.7px */
+  margin-bottom: 0.5em;
+  list-style: none;
+  outline: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: "▶";
+  display: inline-block;
+  margin-right: 0.5em;
+  transform-origin: center;
+  transition: transform 0.3s ease;
+  font-size: 1.3em;
+  color: #004080;
+}
+
+details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+a {
+  color: #006699;
+  text-decoration: none;
+  font-size: 0.95rem; /* ~13.3px */
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+pre {
+  background: #eee;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  font-family: Consolas, monospace;
+  font-size: 0.85rem; /* ~12px */
+  white-space: pre-wrap;
+}
+
+.emoji {
+  font-size: 1.2em;
+  vertical-align: middle;
+  margin-right: 0.3em;
+}
+
+/* Accordion container for summary list */
+#toc details {
+  border: 1px solid #004080;
+  background: #e7f0fb;
+  margin-bottom: 0.5em;
+  max-height: 3.2em; /* summary height */
+  transition: max-height 0.4s ease;
+  cursor: pointer;
+}
+
+#toc details[open] {
+  max-height: 20em; /* enough to show all links */
+}
+
+#toc summary {
+  color: #004080;
+  font-weight: 700;
+  font-size: 1.1rem; /* ~15.4px */
+  padding: 0.5em 1em;
+  border-radius: 4px;
+}
+
+#toc summary:hover {
+  background: #c3dafd;
+}
+
+#toc a {
+  display: block;
+  padding: 0.3em 1.8em;
+  color: #004080;
+  font-weight: normal;
+  font-size: 1rem; /* 14px */
+  text-decoration: none;
+  user-select: none;
+}
+
+#toc a:hover {
+  text-decoration: underline;
+  background: #d0e3fd;
+}
+
+#toc a.active {
+  font-weight: 700;
+  color: #002244;
+  background: #a8c8ff;
+  border-radius: 4px;
+}
+
+/* Checklist styling */
+.checklist {
+  margin-top: 1em;
+  margin-bottom: 3em;
+  padding: 1em;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem; /* ~13.3px */
+}
+
+.checklist h2 {
+  border-bottom: none;
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+.checklist label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6em;
+  cursor: pointer;
+  font-size: 0.95rem; /* ~13.3px */
+}
+
+.checklist input[type="checkbox"] {
+  margin-right: 0.8em;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Sticky TOC (optional) */
+@media (min-width: 768px) {
+  #toc {
+    position: sticky;
+    top: 1em;
+    background: #e7f0fb;
+    padding: 1em;
+    border-radius: 8px;
+    max-width: 320px;
+    margin-bottom: 2em;
+  }
+  body {
+    display: flex;
+    gap: 2em;
+  }
+  main {
+    flex-grow: 1;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<section id="toc">
+  <h2 class="emoji">📑 Sommario</h2>
+
+  <details>
+    <summary>✅ Check iniziale comune a tutti i casi</summary>
+    <a href="#check-iniziale">🔍 Verifiche iniziali</a>
+  </details>
+
+  <details>
+    <summary>📌 CASO 1 – Stampante collegata direttamente al PC (USB/parallela)</summary>
+    <a href="#caso1">🔌 Step tecnici da remoto</a>
+  </details>
+
+  <details>
+    <summary>📡 CASO 2 – Stampante di rete LAN (con IP proprio)</summary>
+    <a href="#caso2">🌐 Step tecnici da remoto</a>
+  </details>
+
+  <details>
+    <summary>🔗 CASO 3 – Stampante condivisa da altro PC</summary>
+    <a href="#caso3">🖥️ Step tecnici da remoto</a>
+  </details>
+
+  <details>
+    <summary>📊 Flowchart tecnico riassuntivo</summary>
+    <a href="#flowchart">📈 Diagramma</a>
+  </details>
+
+  <details>
+    <summary>✅ Checklist finale</summary>
+    <a href="#checklist">☑️ Stato verifiche</a>
+  </details>
+
+  <details>
+    <summary>📁 Opzioni disponibili</summary>
+    <a href="#opzioni">🗂️ Formati file</a>
+  </details>
+</section>
+
+<main>
+
+<h1>🖨️ Procedura Tecnica: Supporto Remoto per Problemi di Stampa</h1>
+
+<hr />
+
+<h2 id="check-iniziale" class="emoji">✅ Check iniziale comune a tutti i casi</h2>
+<details id="details-check-iniziale">
+  <summary><span class="emoji">✅</span> Dettagli</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>🛠️ Azione</th>
+        <th>🔍 Descrizione tecnica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🔍 Verifica se la stampante è <strong>impostata come predefinita</strong></td>
+        <td>🡒 <code>Impostazioni &gt; Dispositivi &gt; Stampanti e scanner &gt; [Seleziona stampante] &gt; Imposta come predefinita</code></td>
+      </tr>
+      <tr>
+        <td>🕹️ Prova stampa</td>
+        <td>🡒 Tasto destro sulla stampante &gt; <code>Gestisci &gt; Stampa pagina di prova</code></td>
+      </tr>
+      <tr>
+        <td>📋 Verifica coda</td>
+        <td>🡒 <code>Stampanti e scanner &gt; [Stampante] &gt; Apri coda</code></td>
+      </tr>
+      <tr>
+        <td>🔄 Riavvia spooler di stampa</td>
+        <td>🡒 Esegui <code>services.msc</code> &gt; <code>Spooler di stampa</code> &gt; <code>Riavvia</code></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<hr />
+
+<h2 id="caso1" class="emoji">📌 CASO 1 – Stampante <strong>collegata direttamente al PC</strong> (USB/parallela)</h2>
+<details id="details-caso1">
+  <summary><span class="emoji">✅</span> Step tecnici da remoto</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>🛠️ Azione</th>
+        <th>🔍 Dettaglio tecnico</th>
+        <th>💻 Comando / Percorso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🔌 Verifica riconoscimento stampante</td>
+        <td>Device visibile in “Dispositivi e stampanti”?</td>
+        <td>🡒 <code>control printers</code></td>
+      </tr>
+      <tr>
+        <td>🧰 Verifica driver installato</td>
+        <td>Clic destro &gt; <code>Proprietà stampante &gt; Driver</code></td>
+        <td>🡒 <code>Gestione dispositivi &gt; Stampanti</code></td>
+      </tr>
+      <tr>
+        <td>🔄 Reinstallazione driver</td>
+        <td>Disinstalla e reinstalla stampante USB</td>
+        <td>🡒 <code>Pannello di controllo &gt; Disinstalla dispositivo</code></td>
+      </tr>
+      <tr>
+        <td>📤 Reindirizzamento stampa</td>
+        <td>Verifica se stampa viene bloccata</td>
+        <td>🡒 Cancella coda e riprova stampa</td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<hr />
+
+<h2 id="caso2" class="emoji">📡 CASO 2 – Stampante <strong>di rete LAN</strong> (con IP proprio)</h2>
+<details id="details-caso2">
+  <summary><span class="emoji">✅</span> Step tecnici da remoto</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>🛠️ Azione</th>
+        <th>🔍 Dettaglio tecnico</th>
+        <th>💻 Comando / Percorso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🌐 Verifica IP stampante</td>
+        <td>Presente sull’etichetta o nel pannello LCD</td>
+        <td>Esempio: <code>192.168.1.45</code></td>
+      </tr>
+      <tr>
+        <td>📶 Test rete (ping IP stampante)</td>
+        <td>Verifica connettività</td>
+        <td>🡒 <code>cmd &gt; ping 192.168.x.x</code></td>
+      </tr>
+      <tr>
+        <td>🌐 Aggiungi stampante per IP</td>
+        <td>🡒 <code>Impostazioni &gt; Stampanti &gt; Aggiungi stampante &gt; La stampante non è elencata &gt; Aggiungi per IP</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>🔄 Reinstalla driver</td>
+        <td>Usa driver ufficiale del produttore</td>
+        <td>🡒 Sito ufficiale stampante</td>
+      </tr>
+      <tr>
+        <td>🧪 Stampa da un altro PC</td>
+        <td>Serve per isolare il problema</td>
+        <td>🡒 Se stampa da altri PC, problema locale</td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<hr />
+
+<h2 id="caso3" class="emoji">🔗 CASO 3 – Stampante <strong>condivisa da altro PC</strong> (es. <code>\\PC-SEGRETERIA\Canon</code>)</h2>
+<details id="details-caso3">
+  <summary><span class="emoji">✅</span> Step tecnici da remoto</summary>
+  <table>
+    <thead>
+      <tr>
+        <th>🛠️ Azione</th>
+        <th>🔍 Dettaglio tecnico</th>
+        <th>💻 Comando / Percorso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🖥️ Verifica PC che condivide</td>
+        <td>Deve essere acceso e raggiungibile</td>
+        <td>🡒 <code>cmd &gt; ping NOME-PC</code></td>
+      </tr>
+      <tr>
+        <td>🔗 Accesso alla condivisione</td>
+        <td>Verifica accesso via <code>\\NOME-PC\</code></td>
+        <td>🡒 <code>Win+R &gt; \\PC-SEGRETERIA</code></td>
+      </tr>
+      <tr>
+        <td>🖨️ Reinstalla stampante condivisa</td>
+        <td>🡒 <code>Impostazioni &gt; Stampanti &gt; Aggiungi stampante &gt; La stampante non è elencata &gt; Seleziona stampante condivisa per nome</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>🔑 Verifica permessi</td>
+        <td>Controlla permessi condivisi</td>
+        <td>🡒 <code>Stampante &gt; Proprietà &gt; Condivisione &gt; Autorizzazioni</code></td>
+      </tr>
+      <tr>
+        <td>🔄 Riavvia servizi spooler</td>
+        <td>Sul PC utente e PC che condivide</td>
+        <td>🡒 <code>services.msc &gt; Spooler di stampa &gt; Riavvia</code></td>
+      </tr>
+    </tbody>
+  </table>
+</details>
+
+<hr />
+
+<h2 id="flowchart" class="emoji">📊 Flowchart tecnico riassuntivo (testo semplificato)</h2>
+<details id="details-flowchart">
+  <summary><span class="emoji">📈</span> Dettagli</summary>
+  <pre>
+                          +----------------------------+
+                          |    L'utente NON riesce a   |
+                          |      stampare un file      |
+                          +-------------+--------------+
+                                        |
+             +--------------------------+--------------------------+
+             |                                                     |
+   +---------v----------+                             +------------v-----------+
+   |   Stampante USB     |                             |     Stampante LAN     |
+   +---------+----------+                             +------------+----------+
+             |                                                     |
+    [Controlla cavi, driver]                            [Ping IP stampante]
+    [Coda stampa, spooler]                              [Installa per IP]
+             |                                                     |
+      Funziona? ➜ Sì                                             Funziona? ➜ Sì
+             |                                                     |
+          Fine                                                     Fine
+             |
+        ➜ NO                                                        ➜ NO
+             |                                                     |
+             (segue...)                                          (segue...)
+  </pre>
+</details>
+
+<hr />
+
+<h2 id="checklist" class="emoji">✅ Checklist finale</h2>
+<details id="details-checklist">
+  <summary><span class="emoji">☑️</span> Dettagli</summary>
+  <div class="checklist">
+    <label><input type="checkbox" /> Stampante correttamente riconosciuta dal sistema</label>
+    <label><input type="checkbox" /> Driver aggiornati e compatibili</label>
+    <label><input type="checkbox" /> Coda stampa vuota o pulita</label>
+    <label><input type="checkbox" /> Spooler di stampa riavviato</label>
+    <label><input type="checkbox" /> Connettività di rete verificata (per stampanti LAN)</label>
+    <label><input type="checkbox" /> Permessi di condivisione corretti (per stampanti condivise)</label>
+    <label><input type="checkbox" /> Stampa di prova eseguita con successo</label>
+  </div>
+</details>
+
+<hr />
+
+<h2 id="opzioni" class="emoji">📁 Opzioni disponibili</h2>
+<details id="details-opzioni">
+  <summary><span class="emoji">🗂️</span> Formati file e risorse</summary>
+  <ul>
+    <li><a href="procedura_supporto_remoto_stampante.docx" download>Download file Word (.docx)</a></li>
+    <li><a href="procedura_supporto_remoto_stampante.pdf" download>Download file PDF</a></li>
+    <li><a href="procedura_supporto_remoto_stampante.html" download>Download file HTML</a></li>
+  </ul>
+</details>
+
+</main>
+
+<script>
+  // Gestione menu a fisarmonica nel sommario a sinistra
+  document.querySelectorAll('#toc details').forEach(detail => {
+    detail.addEventListener('toggle', e => {
+      if (detail.open) {
+        // Chiude gli altri details
+        document.querySelectorAll('#toc details').forEach(d => {
+          if (d !== detail) d.open = false;
+        });
+      }
+    });
+  });
+
+  // Scroll e espansione sezione corrispondente al click link nel sommario
+  document.querySelectorAll('#toc a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const href = link.getAttribute('href').substring(1);
+      const targetDetails = document.querySelector(`#details-${href}`);
+      if (!targetDetails) return;
+
+      // Apri solo la sezione cliccata (chiude le altre)
+      document.querySelectorAll('main details').forEach(d => d.open = false);
+      targetDetails.open = true;
+
+      // Evidenzia link attivo
+      document.querySelectorAll('#toc a').forEach(a => a.classList.remove('active'));
+      link.classList.add('active');
+
+      // Scrolla la sezione nel main
+      targetDetails.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
